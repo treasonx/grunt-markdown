@@ -33,5 +33,9 @@
   },
   "keywords": [
     "gruntplugin"
-  ]
+  ],
+  "dependencies": {
+    "highlight.js": "~7.3.0",
+    "marked": "~0.2.5"
+  }
 }
