@@ -1,0 +1,37 @@
+{
+  "name": "grunt-markdown",
+  "description": "Compile markdown to html",
+  "version": "0.1.0",
+  "homepage": "https://github.com/treasonx/grunt-markdown",
+  "author": {
+    "name": "James Morrin",
+    "email": "treasonx@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/treasonx/grunt-markdown"
+  },
+  "bugs": {
+    "url": "https://github.com/treasonx/grunt-markdown/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/treasonx/grunt-markdown/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "grunt.js",
+  "bin": "bin/grunt-markdown",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt": "~0.3.16"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
