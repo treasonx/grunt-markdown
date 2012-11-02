@@ -7,18 +7,20 @@
  */
 
 module.exports = function(grunt) {
+  'use strict';
   
   var path = require('path'); 
-  var markdown = require('markdown');
+  var markdown = require('marked');
   var hljs = require('highlight.js');
 
-  grunt.registerHelper('markdown', function(src, options) {
+  grunt.registerHelper('markdown', function(src, options, template) {
 
-    options.highlight = options.highlight || 'manual';
+    var html = null;
 
     if(typeof options.highlight === 'string') {
       if(options.highlight === 'auto') {
         options.highlight = function(code) {
+
           return hljs.highlightAuto(code).value;
         };
       } else if (options.highlight === 'manual') {
@@ -29,27 +31,31 @@ module.exports = function(grunt) {
       
     }
 
-    if(typeof options === 'object') {
-      markdown.setOptions(options);
-    }
+    markdown.setOptions(options);
 
     grunt.verbose.write('Marking down...');  
 
-    return markdown(src);
+    html = markdown(src);
+
+    return grunt._.template(template, html);
 
   });
 
   grunt.registerMultiTask('markdown', 'compiles markdown files into html', function() {
-
-    var options = grunt.config(['jshint', this.target, 'options']);
-    var destPath = this.dest.path;
+    var destPath = this.data.dest;
+    var options = this.data.options || {};
     var extension = this.data.extenstion || 'html';
+    //would like to load default template here.
+    var templateFn = this.data.template || 'template.html'; 
+    var template = grunt.file.read(templateFn);
 
-    grunt.file.expandFiles(this.file.src).forEach(function(filepath) {
+    grunt.file.expandFiles(this.data.files).forEach(function(filepath) {
+      
+      var file = grunt.file.read(filepath);
 
-      var html = grunt.helper('markdown', grunt.file.read(filepath), options);
+      var html = grunt.helper('markdown', file, options, template);
       var ext = path.extname(filepath);
-      var dest = path.join(destPath, path.basename(filepath, ext) + extension);
+      var dest = path.join(destPath, path.basename(filepath, ext) +'.'+ extension);
       grunt.file.write(dest, html);
       
     });
