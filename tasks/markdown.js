@@ -12,6 +12,7 @@ module.exports = function(grunt) {
   var path = require('path'); 
   var markdown = require('marked');
   var hljs = require('highlight.js');
+  var _ = require('lodash');
 
   grunt.registerHelper('markdown', function(src, options, template) {
 
@@ -37,7 +38,7 @@ module.exports = function(grunt) {
 
     html = markdown(src);
 
-    return grunt._.template(template, html);
+    return _.template(template, {content:html});
 
   });
 
@@ -45,8 +46,7 @@ module.exports = function(grunt) {
     var destPath = this.data.dest;
     var options = this.data.options || {};
     var extension = this.data.extenstion || 'html';
-    //would like to load default template here.
-    var templateFn = this.data.template || 'template.html'; 
+    var templateFn = this.data.template || 'tasks/template.html'; 
     var template = grunt.file.read(templateFn);
 
     grunt.file.expandFiles(this.data.files).forEach(function(filepath) {
