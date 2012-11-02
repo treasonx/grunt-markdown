@@ -12,6 +12,16 @@ module.exports = function(grunt) {
       files: '<config:lint.files>',
       tasks: 'default'
     },
+    markdown: {
+      all: {
+        files: ['test/samples/*'],
+        dest: 'test/out',
+        options: {
+          gfm: true,
+          highlight: 'manual'
+        }
+      }
+    },
     jshint: {
       options: {
         curly: true,
