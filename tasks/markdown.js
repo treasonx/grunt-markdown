@@ -21,12 +21,17 @@ module.exports = function(grunt) {
     if(typeof options.highlight === 'string') {
       if(options.highlight === 'auto') {
         options.highlight = function(code) {
-
           return hljs.highlightAuto(code).value;
         };
       } else if (options.highlight === 'manual') {
         options.highlight = function(code, lang) {
-          return hljs.highlight(lang, code).value;
+          var out = code;
+          try {
+            out = hljs.highlight(lang, code).value;
+          } catch(e) {
+            out = hljs.highlightAuto(code).value;
+          }
+          return out;
         };
       }
       
@@ -46,7 +51,7 @@ module.exports = function(grunt) {
     var destPath = this.data.dest;
     var options = this.data.options || {};
     var extension = this.data.extenstion || 'html';
-    var templateFn = this.data.template || 'tasks/template.html'; 
+    var templateFn = this.data.template || path.join(__dirname, 'template.html'); 
     var template = grunt.file.read(templateFn);
 
     grunt.file.expandFiles(this.data.files).forEach(function(filepath) {
