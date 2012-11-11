@@ -26,6 +26,10 @@ grunt.initConfig({
       options: {
         gfm: true,
         highlight: manual
+        codeLines: {
+          before: '<span>',
+          after: '</span>'
+        }
       }
     }  
   }  
@@ -44,6 +48,7 @@ The parser options are passed to the [marked](https://github.com/chjj/marked) ma
 
 * `auto`: Will try to detect the language
 * `manual`: will pass the language name from markdown to the highlight function
+* `codeLines`: specify text that should wrap code lines
 
 
 ###Template File
