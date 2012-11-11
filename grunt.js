@@ -20,7 +20,20 @@ module.exports = function(grunt) {
           gfm: true,
           highlight: 'manual'
         }
+      },
+      wrap:{
+        files: ['test/samples/*'],
+        dest: 'test/out',
+        options: {
+          gfm: true,
+          highlight: 'manual',
+          codeLines: {
+            before: '<span>',
+            after: '</span>'
+          }
+        }
       }
+
     },
     jshint: {
       options: {
