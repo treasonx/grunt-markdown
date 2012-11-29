@@ -1,3 +1,7 @@
+# TL;DR
+[Video and Blog Post using
+grunt-markdown](http://treasonx.com/articles/GruntMarkDown.html)
+
 # grunt-markdown
 
 Compile markdown to html. This grunt task will take a given set of input markdown files and convert them to HTML.It supports [GFM](http://github.github.com/github-flavored-markdown/) with code highlighting. The code highlighting is done using [highlight.js](http://softwaremaniacs.org/soft/highlight/en/).
