@@ -29,7 +29,10 @@
     "test": "grunt test"
   },
   "devDependencies": {
-    "grunt": "~0.3.16"
+    "grunt": "~0.4.0",
+    "grunt-contrib-jshint": "~0.3.0",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt-contrib-watch": "~0.3.1"
   },
   "keywords": [
     "gruntplugin"
