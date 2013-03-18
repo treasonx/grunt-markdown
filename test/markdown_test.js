@@ -30,7 +30,13 @@ exports['markdown'] = {
   'helper': function(test) {
     test.expect(1);
     // tests here
-    test.equal(grunt.helper('markdown'), 'markdown!!!', 'should return the correct value.');
+    var filepath = 'test/samples/javascript.md';
+    var file = grunt.file.read(filepath);
+    var options = {};
+    var templatepath = 'tasks/template.html';
+    var template = grunt.file.read(templatepath);
+    var html = grunt.helper('markdown', file, options, template);
+    test.ok(html.match(/<body>/), "should have body");
     test.done();
   }
 };
