@@ -1,6 +1,7 @@
 'use strict';
 
 var grunt = require('grunt');
+var markdown = require('../tasks/lib/markdown').init(grunt);
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -35,7 +36,7 @@ exports['markdown'] = {
     var options = {};
     var templatepath = 'tasks/template.html';
     var template = grunt.file.read(templatepath);
-    var html = grunt.helper('markdown', file, options, template);
+    var html = markdown.markdown(file, options, template);
     test.ok(html.match(/<body>/), "should have body");
     test.done();
   }
