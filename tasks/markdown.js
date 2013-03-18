@@ -74,7 +74,7 @@ module.exports = function(grunt) {
     var templateFn = this.data.template || path.join(__dirname, 'template.html');
     var template = grunt.file.read(templateFn);
 
-    grunt.file.expandFiles(this.data.files).forEach(function(filepath) {
+    grunt.file.expand({filter:'isFile'}, this.data.files).forEach(function(filepath) {
 
       var file = grunt.file.read(filepath);
 
