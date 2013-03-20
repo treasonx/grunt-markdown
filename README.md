@@ -7,7 +7,7 @@ grunt-markdown](http://treasonx.com/articles/GruntMarkDown.html)
 Compile markdown to html. This grunt task will take a given set of input markdown files and convert them to HTML.It supports [GFM](http://github.github.com/github-flavored-markdown/) with code highlighting. The code highlighting is done using [highlight.js](http://softwaremaniacs.org/soft/highlight/en/).
 
 ## Getting Started
-Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-markdown`
+Install this grunt plugin next to your project's [Gruntfile.js][getting_started] with: `npm install grunt-markdown`
 
 Then add this line to your project's `grunt.js` gruntfile:
 
