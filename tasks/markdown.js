@@ -14,25 +14,42 @@ module.exports = function(grunt) {
   // Internal lib.
   var markdown = require('./lib/markdown').init(grunt);
 
-  grunt.registerMultiTask('markdown', 'compiles markdown files into html', function() {
-    var destPath = this.data.dest;
-    var options = this.data.options || {};
-    var extension = this.data.extenstion || 'html';
-    var templateFn = this.data.template || path.join(__dirname, 'template.html');
-    var template = grunt.file.read(templateFn);
+  grunt.registerMultiTask('markdown', 'Compiles markdown files into html.', function() {
+    // Merge task-specific and/or target-specific options with these defaults.
+    var options = this.options({
+      htmlExtension: 'html',
+      markdownExtension: 'md',
+      markedOptions: {},
+      template: grunt.file.read(path.join(__dirname, 'template.html'))
+    });
 
-    grunt.file.expand({filter:'isFile'}, this.data.files).forEach(function(filepath) {
+    // Iterate over all specified file groups.
+    this.files.forEach(function(f) {
+      f.src.forEach(function(filepath) {
+        var content;
+        var destName;
 
-      var file = grunt.file.read(filepath);
+        if (!grunt.file.exists(filepath)) {
+          grunt.log.warn('Source file "' + filepath + '" not found.');
+          return false;
+        } else {
+          destName = f.dest.replace(
+            options.markdownExtension,
+            options.htmlExtension
+          );
 
-      var html = markdown.markdown(file, options, template);
-      var ext = path.extname(filepath);
-      var dest = path.join(destPath, path.basename(filepath, ext) +'.'+ extension);
-      grunt.file.write(dest, html);
+          content = markdown.markdown(
+            grunt.file.read(filepath),
+            options.markedOptions,
+            options.template
+          );
 
+          grunt.file.write(destName, content);
+          grunt.log.writeln('File "' + destName + '" created.');
+        }
+      });
     });
 
   });
 
 };
-
