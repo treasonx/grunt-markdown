@@ -20,8 +20,10 @@ module.exports = function(grunt) {
       htmlExtension: 'html',
       markdownExtension: 'md',
       markedOptions: {},
-      template: grunt.file.read(path.join(__dirname, 'template.html'))
+      template: path.join(__dirname, 'template.html')
     });
+
+    options.template = grunt.file.read(options.template);
 
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
@@ -29,24 +31,19 @@ module.exports = function(grunt) {
         var content;
         var destName;
 
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          destName = f.dest.replace(
-            options.markdownExtension,
-            options.htmlExtension
-          );
+        destName = f.dest.replace(
+          options.markdownExtension,
+          options.htmlExtension
+        );
 
-          content = markdown.markdown(
-            grunt.file.read(filepath),
-            options.markedOptions,
-            options.template
-          );
+        content = markdown.markdown(
+          grunt.file.read(filepath),
+          options.markedOptions,
+          options.template
+        );
 
-          grunt.file.write(destName, content);
-          grunt.log.writeln('File "' + destName + '" created.');
-        }
+        grunt.file.write(destName, content);
+        grunt.log.writeln('File "' + destName + '" created.');
       });
     });
 
