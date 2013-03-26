@@ -19,27 +19,22 @@ module.exports = function(grunt) {
     var options = this.options({
       htmlExtension: 'html',
       markdownExtension: 'md',
-      markedOptions: {},
+      markdownOptions: {},
       template: path.join(__dirname, 'template.html')
     });
-
-    options.template = grunt.file.read(options.template);
+    var template = grunt.file.read(options.template);
 
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
       f.src.forEach(function(filepath) {
-        var content;
-        var destName;
-
-        destName = f.dest.replace(
+        var destName = f.dest.replace(
           options.markdownExtension,
           options.htmlExtension
         );
-
-        content = markdown.markdown(
+        var content = markdown.markdown(
           grunt.file.read(filepath),
-          options.markedOptions,
-          options.template
+          options.markdownOptions,
+          template
         );
 
         grunt.file.write(destName, content);
