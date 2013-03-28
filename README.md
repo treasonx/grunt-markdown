@@ -38,7 +38,7 @@ grunt.initConfig({
     all: {
       files: ['docs/src/*.md'],
       dest: 'docs/html/',
-      template 'myTemplate.jst',
+      template: 'myTemplate.jst',
       options: {
         gfm: true,
         highlight: 'manual',
