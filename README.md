@@ -5,8 +5,8 @@ This grunt task takes a set of markdown files and converts them to HTML. It supp
 ## Getting Started
 Install this grunt plugin next to your project's [grunt.js gruntfile](http://gruntjs.com/getting-started) with:
 
-```shell
-npm install grunt-markdown
+```bash
+npm install grunt-markdown --save-dev
 ```
 
 Then add this line to your gruntfile:
