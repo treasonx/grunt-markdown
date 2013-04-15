@@ -15,9 +15,14 @@ module.exports = function(grunt) {
   var markdown = require('./lib/markdown').init(grunt);
 
   grunt.registerMultiTask('markdown', 'compiles markdown files into html', function() {
+    // check for mistyped 'extenstion' option name
+    if (this.data.extenstion && !this.data.extension) {
+      this.data.extension = this.data.extenstion;
+      console.warn('Warning: use deprecated (mistyped) option `extenstion`, please use `extension` instead.'.yellow);
+    }
     var destPath = this.data.dest;
     var options = this.data.options || {};
-    var extension = this.data.extenstion || 'html';
+    var extension = this.data.extension || 'html';
     var templateFn = this.data.template || path.join(__dirname, 'template.html');
     var template = grunt.file.read(templateFn);
 
