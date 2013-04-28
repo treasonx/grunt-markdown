@@ -39,7 +39,7 @@
   "dependencies": {
     "highlight.js": "~7.3.0",
     "marked": "~0.2.5",
-    "grunt-contrib-lib": "~0.3.0",
+    "grunt-lib-contrib": "~0.3.0",
     "lodash": "~0.9.1"
   }
 }
