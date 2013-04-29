@@ -14,30 +14,35 @@ module.exports = function(grunt) {
   // Internal lib.
   var markdown = require('./lib/markdown').init(grunt);
 
-  grunt.registerMultiTask('markdown', 'compiles markdown files into html', function() {
-    // check for mistyped 'extenstion' option name
-    if (this.data.extenstion && !this.data.extension) {
-      this.data.extension = this.data.extenstion;
-      console.warn('Warning: use deprecated (mistyped) option `extenstion`, please use `extension` instead.'.yellow);
-    }
-    var destPath = this.data.dest;
-    var options = this.data.options || {};
-    var extension = this.data.extension || 'html';
-    var templateFn = this.data.template || path.join(__dirname, 'template.html');
-    var template = grunt.file.read(templateFn);
+  grunt.registerMultiTask('markdown', 'Compiles markdown files into html.', function() {
+    // Merge task-specific and/or target-specific options with these defaults.
+    var options = this.options({
+      htmlExtension: 'html',
+      markdownExtension: 'md',
+      markdownOptions: {},
+      template: path.join(__dirname, 'template.html')
+    });
+    var template = grunt.file.read(options.template);
 
-    grunt.file.expand({filter:'isFile'}, this.data.files).forEach(function(filepath) {
+    // Iterate over all specified file groups.
+    this.files.forEach(function(f) {
+      f.src.forEach(function(filepath) {
+        var destName = f.dest.replace(
+          options.markdownExtension,
+          options.htmlExtension
+        );
+        var content = markdown.markdown(
+          grunt.file.read(filepath),
+          options.markdownOptions,
+          template
+        );
 
-      var file = grunt.file.read(filepath);
-
-      var html = markdown.markdown(file, options, template);
-      var ext = path.extname(filepath);
-      var dest = path.join(destPath, path.basename(filepath, ext) +'.'+ extension);
-      grunt.file.write(dest, html);
-
+        grunt.file.write(destName, content);
+        grunt.log.writeln('File "' + destName + '" created.');
+      });
+      
     });
 
   });
 
 };
-
