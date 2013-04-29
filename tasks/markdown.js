@@ -27,18 +27,14 @@ module.exports = function(grunt) {
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
       f.src.forEach(function(filepath) {
-        var destName = f.dest.replace(
-          options.markdownExtension,
-          options.htmlExtension
-        );
         var content = markdown.markdown(
           grunt.file.read(filepath),
           options.markdownOptions,
           template
         );
 
-        grunt.file.write(destName, content);
-        grunt.log.writeln('File "' + destName + '" created.');
+        grunt.file.write(f.dest, content);
+        grunt.log.writeln('File "' + f.dest + '" created.');
       });
       
     });

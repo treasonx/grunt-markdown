@@ -26,7 +26,8 @@ grunt.initConfig({
         {
           expand: true,
           src: 'docs/src/*.md',
-          dest: 'docs/html/'
+          dest: 'docs/html/',
+          ext: '.html'
         }
       ]
     }
@@ -45,12 +46,11 @@ grunt.initConfig({
         {
           expand: true,
           src: 'docs/src/*.md',
-          dest: 'docs/html/'
+          dest: 'docs/html/',
+          ext: '.html'
         }
       ],
       options: {
-        htmlExtension: 'html',
-        markdownExtension: 'md',
         template: 'myTemplate.jst',
         markdownOptions: {
           gfm: true,
@@ -69,7 +69,9 @@ grunt.initConfig({
 These are the properties that the `markdown` task accepts:
 
 * `files`: This plugin supports use of the [files API](http://gruntjs.com/configuring-tasks#files) introduced in Grunt 0.4.0. Files may be specified using any one of the [Compact Format](http://gruntjs.com/configuring-tasks#compact-format), [Files Objects Format](http://gruntjs.com/configuring-tasks#files-object-format), or [Files Array Format](http://gruntjs.com/configuring-tasks#files-array-format) (as in the above example).
-* `options`: `htmlExtension` and `markdownExtension` specify the input and output extensions of your markdown files, respectively. If you wish to specify your own html template, use the `template` option. The only other option available is a `markdownOptions` hash, which is passed directly to the markdown parser.
+* `options`: options to be passed to the markdown parser 
+    * `template`: If you wish to specify your own html template, use the `template` option. Include the following line: `<%=content%>` where you want the compiled markdown inserted in your template
+    * `markdownOptions`: Options passed directly to the markdown parser.
 
 Most markdown options are passed as-is to the [marked](https://github.com/chjj/marked) markdown parser. The only option that is processed prior to compiling the markdown is the `highlight` option. If you specify `auto` or `manual` the task will handle highlighting code blocks for you use highlight.js. If you pass a custom function as the highlight option it will be used to highlight the code.
 
