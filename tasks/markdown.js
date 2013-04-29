@@ -25,20 +25,21 @@ module.exports = function(grunt) {
     var template = grunt.file.read(options.template);
 
     // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      f.src.forEach(function(filepath) {
-        var content = markdown.markdown(
-          grunt.file.read(filepath),
-          options.markdownOptions,
-          template
-        );
+    grunt.util.async.forEachLimit(this.files, 25, function (file, next) {
+        convert(file.src, file.dest, next);
+    }.bind(this), this.async());
 
-        grunt.file.write(f.dest, content);
-        grunt.log.writeln('File "' + f.dest + '" created.');
-      });
-      
-    });
+    function convert(src, dest, next){
+      var content = markdown.markdown(
+        grunt.file.read(src),
+        options.markdownOptions,
+        template
+      );
 
+      grunt.file.write(dest, content);
+      grunt.log.writeln('File "' + dest + '" created.');
+      next();
+    }
   });
 
 };
