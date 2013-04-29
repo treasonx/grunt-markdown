@@ -11,16 +11,20 @@ module.exports = function(grunt) {
     },
     markdown: {
       all: {
-        files: ['test/samples/*'],
-        dest: 'test/out',
         options: {
           gfm: true,
           highlight: 'manual'
-        }
+        },
+        files: [
+          {
+            expand: true,
+            src: 'test/samples/*.md',
+            dest: 'test/out/',
+            ext: '.html'
+          }
+        ]
       },
       wrap:{
-        files: ['test/samples/*'],
-        dest: 'test/out',
         options: {
           gfm: true,
           highlight: 'manual',
@@ -28,7 +32,15 @@ module.exports = function(grunt) {
             before: '<span>',
             after: '</span>'
           }
-        }
+        },
+        files: [
+          {
+            expand: true,
+            src: 'test/samples/*.md',
+            dest: 'test/out/',
+            ext: '.html'
+          }
+        ]
       }
 
     },
