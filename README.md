@@ -22,10 +22,16 @@ Creating a markdown task is simple. For the basic functionality add the followin
 grunt.initConfig({
   markdown: {
     all: {
-      files: ['docs/src/*.md'],
-      dest: 'docs/html/'
-    }  
-  }  
+      files: [
+        {
+          expand: true,
+          src: 'docs/src/*.md',
+          dest: 'docs/html/',
+          ext: '.html'
+        }
+      ]
+    }
+  }
 });
 
 ```
@@ -36,35 +42,43 @@ Here is an example config using all of the options:
 grunt.initConfig({
   markdown: {
     all: {
-      files: ['docs/src/*.md'],
-      dest: 'docs/html/',
-      template: 'myTemplate.jst',
+      files: [
+        {
+          expand: true,
+          src: 'docs/src/*.md',
+          dest: 'docs/html/',
+          ext: '.html'
+        }
+      ],
       options: {
-        gfm: true,
-        highlight: 'manual',
-        codeLines: {
-          before: '<span>',
-          after: '</span>'
+        template: 'myTemplate.jst',
+        markdownOptions: {
+          gfm: true,
+          highlight: manual
+          codeLines: {
+            before: '<span>',
+            after: '</span>'
+          }
         }
       }
-    }  
-  }  
+    }
+  }
 });
 
 ```
 These are the properties that the `markdown` task accepts:
 
-* `files`: The list of markdown files
-* `dest`: The output location for the compiled HTML files
-* `template`: If you wish to provide your own template written in `.jst`, list its location here.  Where you want the compiled markdown inserted in your template, include the following line: `<%=content%>`
-* `options`: options to be passed to the markdown parser
+* `files`: This plugin supports use of the [files API](http://gruntjs.com/configuring-tasks#files) introduced in Grunt 0.4.0. Files may be specified using any one of the [Compact Format](http://gruntjs.com/configuring-tasks#compact-format), [Files Objects Format](http://gruntjs.com/configuring-tasks#files-object-format), or [Files Array Format](http://gruntjs.com/configuring-tasks#files-array-format) (as in the above example).
+* `options`: options to be passed to the markdown parser 
+    * `template`: If you wish to specify your own html template, use the `template` option. Include the following line: `<%=content%>` where you want the compiled markdown inserted in your template
+    * `markdownOptions`: Options passed directly to the markdown parser.
 
-The parser options are passed to the [marked](https://github.com/chjj/marked) markdown parser. The only option that is processed prior to compiling the markdown is the `highlight` option. If you specify `auto`or `manual` the task will handle highlighting code blocks for you use highlight.js. If you pass a custom function as the highlight option it will be used to highlight the code.
+Most markdown options are passed as-is to the [marked](https://github.com/chjj/marked) markdown parser. The only option that is processed prior to compiling the markdown is the `highlight` option. If you specify `auto` or `manual` the task will handle highlighting code blocks for you use highlight.js. If you pass a custom function as the highlight option it will be used to highlight the code.
 
 * `auto`: Will try to detect the language
 * `manual`: will pass the language name from markdown to the highlight function
 * `codeLines`: specify text that should wrap code lines
 
 ## License
-Copyright (c) 2012 James Morrin  
+Copyright (c) 2012 James Morrin
 Licensed under the MIT license.

@@ -14,30 +14,32 @@ module.exports = function(grunt) {
   // Internal lib.
   var markdown = require('./lib/markdown').init(grunt);
 
-  grunt.registerMultiTask('markdown', 'compiles markdown files into html', function() {
-    // check for mistyped 'extenstion' option name
-    if (this.data.extenstion && !this.data.extension) {
-      this.data.extension = this.data.extenstion;
-      console.warn('Warning: use deprecated (mistyped) option `extenstion`, please use `extension` instead.'.yellow);
-    }
-    var destPath = this.data.dest;
-    var options = this.data.options || {};
-    var extension = this.data.extension || 'html';
-    var templateFn = this.data.template || path.join(__dirname, 'template.html');
-    var template = grunt.file.read(templateFn);
-
-    grunt.file.expand({filter:'isFile'}, this.data.files).forEach(function(filepath) {
-
-      var file = grunt.file.read(filepath);
-
-      var html = markdown.markdown(file, options, template);
-      var ext = path.extname(filepath);
-      var dest = path.join(destPath, path.basename(filepath, ext) +'.'+ extension);
-      grunt.file.write(dest, html);
-
+  grunt.registerMultiTask('markdown', 'Compiles markdown files into html.', function() {
+    // Merge task-specific and/or target-specific options with these defaults.
+    var options = this.options({
+      htmlExtension: 'html',
+      markdownExtension: 'md',
+      markdownOptions: {},
+      template: path.join(__dirname, 'template.html')
     });
+    var template = grunt.file.read(options.template);
 
+    // Iterate over all specified file groups.
+    grunt.util.async.forEachLimit(this.files, 25, function (file, next) {
+        convert(file.src, file.dest, next);
+    }.bind(this), this.async());
+
+    function convert(src, dest, next){
+      var content = markdown.markdown(
+        grunt.file.read(src),
+        options.markdownOptions,
+        template
+      );
+
+      grunt.file.write(dest, content);
+      grunt.log.writeln('File "' + dest + '" created.');
+      next();
+    }
   });
 
 };
-

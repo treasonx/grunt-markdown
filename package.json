@@ -1,12 +1,22 @@
 {
   "name": "grunt-markdown",
   "description": "Compile markdown to html. GFM and code highlighting support!",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "homepage": "https://github.com/treasonx/grunt-markdown",
   "author": {
     "name": "James Morrin",
     "email": "treasonx@gmail.com"
   },
+  "contributors": [
+    {
+      "name": "Thomas Welton",
+      "email": "thomaswelton@me.com"
+    },
+    {
+      "name": "Matt Dawson",
+      "email": "matthewtdawson@gmail.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/treasonx/grunt-markdown"
