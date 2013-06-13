@@ -1,5 +1,7 @@
 # grunt-markdown
 
+[![Build Status](https://travis-ci.org/treasonx/grunt-markdown.png?branch=master)](https://travis-ci.org/treasonx/grunt-markdown)
+
 This grunt task takes a set of markdown files and converts them to HTML. It supports [GFM](http://github.github.com/github-flavored-markdown/) with code highlighting. The code highlighting is done using [highlight.js](http://softwaremaniacs.org/soft/highlight/en/).
 
 ## Getting Started
