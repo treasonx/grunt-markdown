@@ -6,7 +6,7 @@ module.exports = function(grunt) {
       all: ['test/**/*.js']
     },
     watch: {
-      files: '<%= jshint.files %>',
+      files: ['<%= jshint.files %>', 'test/**/*.js'],
       tasks: 'default'
     },
     markdown: {
@@ -72,5 +72,6 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'nodeunit']);
+  grunt.registerTask('dev', ['watch', 'jshint', 'nodeunit']);
 
 };
