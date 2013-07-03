@@ -56,7 +56,7 @@ grunt.initConfig({
         template: 'myTemplate.jst',
         markdownOptions: {
           gfm: true,
-          highlight: manual
+          highlight: manual,
           codeLines: {
             before: '<span>',
             after: '</span>'
