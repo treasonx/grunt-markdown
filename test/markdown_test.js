@@ -135,6 +135,45 @@ exports['markdown'] = {
     var $h1 = $result.find('h1');
     test.ok($h1.text() === 'Oh Hai', 'the content is replaced with postCompile changes');
     test.done();
+  },
+  'should expand template with context object': function(test) {
+    template = grunt.file.read('test/data/titletest.html');
+    file = grunt.file.read('test/data/titletest.md');
+
+    options.templateContext = {
+      title: 'The name is this',
+      description: 'Monkey'
+    };
+    getjQuery();
+    var $title = $result.find('title');
+    var $desc = $result.find('meta[name="description"]');
+
+    test.ok($title.text() === 'The name is this', 'the title should be set from preCompile context');
+    test.ok($desc.attr('content') === 'Monkey', 'the description should be set from preCompile context');
+    test.done();
+
+  },
+  'should expand template with context from function': function(test) {
+    template = grunt.file.read('test/data/titletest.html');
+    file = grunt.file.read('test/data/titletest.md');
+
+    options.templateContext = function() {
+
+      return {
+        title: 'The name is this',
+        description: 'Monkey'
+      };
+
+    };
+
+    getjQuery();
+    var $title = $result.find('title');
+    var $desc = $result.find('meta[name="description"]');
+
+    test.ok($title.text() === 'The name is this', 'the title should be set from preCompile context');
+    test.ok($desc.attr('content') === 'Monkey', 'the description should be set from preCompile context');
+    test.done();
+
   }
 
 };
