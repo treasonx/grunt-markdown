@@ -8,6 +8,7 @@
 
 module.exports = function(grunt) {
   'use strict';
+  var noop = function(){};
 
   var path = require('path');
 
@@ -20,6 +21,9 @@ module.exports = function(grunt) {
       htmlExtension: 'html',
       markdownExtension: 'md',
       markdownOptions: {},
+      preCompile: noop,
+      postCompile: noop,
+      templateContext: {},
       template: path.join(__dirname, 'template.html')
     });
     var template = grunt.file.read(options.template);
@@ -32,7 +36,7 @@ module.exports = function(grunt) {
     function convert(src, dest, next){
       var content = markdown.markdown(
         grunt.file.read(src),
-        options.markdownOptions,
+        options,
         template
       );
 

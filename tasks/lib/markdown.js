@@ -19,6 +19,7 @@ exports.init = function(grunt) {
   exports.markdown = function(src, options, template) {
 
     var html = null;
+    var templateContext = null;
     var codeLines = options.codeLines;
     var shouldWrap = codeLines && codeLines.before && codeLines.after;
 
@@ -59,13 +60,23 @@ exports.init = function(grunt) {
 
     }
 
-    markdown.setOptions(options);
+    markdown.setOptions(options.markdownOptions);
 
     grunt.verbose.write('Marking down...');
 
-    html = markdown(src);
+    if(_.isFunction(options.templateContext)) {
+      templateContext = options.templateContext();
+    } else {
+      templateContext = options.templateContext;
+    }
 
-    return _.template(template, {content:html});
+    src = options.preCompile(src, templateContext) || src;
+    html = markdown(src);
+    html = options.postCompile(src, templateContext) || html;
+
+    templateContext.content = templateContext.content || html;
+
+    return _.template(template, templateContext);
 
   };
 

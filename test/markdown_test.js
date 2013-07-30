@@ -25,12 +25,15 @@ var cheerio = require('cheerio');
 */
 
 var filepath = 'test/samples/javascript.md';
-var file = grunt.file.read(filepath);
+var file = null;
+var defaultFile =  grunt.file.read(filepath);
 var templatepath = 'tasks/template.html';
-var template = grunt.file.read(templatepath);
+var template = null;
+var defaultTemplate = grunt.file.read(templatepath);
 var html = null;
 var $result = null;
-var options = {};
+var noop = function() {};
+var options = null;
 
 function getjQuery() {
   html = markdown.markdown(file, options, template);
@@ -39,10 +42,16 @@ function getjQuery() {
 
 exports['markdown'] = {
   setUp: function(done) {
+    options = {
+      preCompile: noop,
+      postCompile: noop,
+      templateContext: {}
+    };
+    template = defaultTemplate;
+    file = defaultFile;
     done();
   },
   tearDown: function(done) {
-    options = {};
     done();
   },
   'helper': function(test) {
@@ -96,6 +105,36 @@ exports['markdown'] = {
     test.ok($a.text() === 'json', 'should have code text');
     test.done();
 
+  },
+
+  'should expand preCompile context': function(test) {
+    template = grunt.file.read('test/data/titletest.html');
+    file = grunt.file.read('test/data/titletest.md');
+
+    options.preCompile = function(src, context) {
+      var matcher = src.match(/@-title:\s?([^@:\n]+)\n/i);
+      context.title = matcher && matcher.length > 1 && matcher[1];
+      matcher = src.match(/@-description:\s?([^@:\n]+)\n/i);
+      context.description = matcher && matcher.length > 1 && matcher[1];
+    };
+    getjQuery();
+    var $title = $result.find('title');
+    var $desc = $result.find('meta[name="description"]');
+
+    test.ok($title.text() === 'The name is this', 'the title should be set from preCompile context');
+    test.ok($desc.attr('content') === 'Monkey', 'the description should be set from preCompile context');
+    test.done();
+  },
+
+  'should save postCompile Changes': function(test) {
+    options.postCompile = function(src, context) {
+      return '<div><h1>Oh Hai</h1></div>';
+    };
+
+    getjQuery();
+    var $h1 = $result.find('h1');
+    test.ok($h1.text() === 'Oh Hai', 'the content is replaced with postCompile changes');
+    test.done();
   }
 
 };

@@ -54,6 +54,9 @@ grunt.initConfig({
       ],
       options: {
         template: 'myTemplate.jst',
+        preCompile: function(src, context) {},
+        postCompile: function(src, context) {},
+        templateContext: {},
         markdownOptions: {
           gfm: true,
           highlight: manual,
@@ -74,6 +77,47 @@ These are the properties that the `markdown` task accepts:
 * `options`: options to be passed to the markdown parser 
     * `template`: If you wish to specify your own html template, use the `template` option. Include the following line: `<%=content%>` where you want the compiled markdown inserted in your template
     * `markdownOptions`: Options passed directly to the markdown parser.
+    * `preCompile`: is run before the markdown is compiled
+    * `postCompile`: is run after the markdown has been compiled
+    * `templateContext`: the default context for template expansion
+
+### modifying content with preCompile and postCompile
+
+Sometimes there is a need to modify the markdown content prior to compilation.
+This is most commonly used to augment the template context with meta data before
+expanding the html template. 
+
+#### preCompile
+
+This function is run prior to the compilation of md to html. It has the
+following format: 
+
+```javascript
+  function(src, context) {
+    //do stuff to src and context
+    //optionally return the modified src
+  }
+```
+
+#### postCompile
+
+This function is run after the md has been converted to html. It has the
+following format:
+
+```javascript
+  function(src, context) {
+    //do stuff to src and context
+    //optionally return the modified src
+  }
+```
+### templateContext
+
+This object is used to expand your html template. Any data added to this object
+will be available in the template using the template syntax `<%=myAttr%>`. 
+
+This can also be a function which is expected to return a context object.
+
+### markdownOptions
 
 Most markdown options are passed as-is to the [marked](https://github.com/chjj/marked) markdown parser. The only option that is processed prior to compiling the markdown is the `highlight` option. If you specify `auto` or `manual` the task will handle highlighting code blocks for you use highlight.js. If you pass a custom function as the highlight option it will be used to highlight the code.
 
