@@ -72,11 +72,12 @@ exports.init = function(grunt) {
 
     src = options.preCompile(src, templateContext) || src;
     html = markdown(src);
-    html = options.postCompile(src, templateContext) || html;
+    html = options.postCompile(html, templateContext) || html;
 
-    templateContext.content = templateContext.content || html;
+    templateContext.content = html;
 
-    return _.template(template, templateContext);
+    src = _.template(template, templateContext);
+    return src;
 
   };
 
