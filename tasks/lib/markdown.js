@@ -34,30 +34,32 @@ exports.init = function(grunt) {
       return out.join('\n');
     }
 
-    if(typeof options.markdownOptions.highlight === 'string') {
-      if(options.markdownOptions.highlight === 'auto') {
-        options.markdownOptions.highlight = function(code) {
-          var out = hljs.highlightAuto(code).value;
-          if(shouldWrap) {
-            out = wrapLines(out);
-          }
-          return out;
-        };
-      } else if (options.markdownOptions.highlight === 'manual') {
-        options.markdownOptions.highlight = function(code, lang) {
-          var out = code;
-          try {
-            out = hljs.highlight(lang, code).value;
-          } catch(e) {
-            out = hljs.highlightAuto(code).value;
-          }
-          if(shouldWrap) {
-            out = wrapLines(out);
-          }
-          return out;
-        };
-      }
+    if(options.markdownOptions && typeof options.markdownOptions === 'object'){
+      if(typeof options.markdownOptions.highlight === 'string') {
+        if(options.markdownOptions.highlight === 'auto') {
+          options.markdownOptions.highlight = function(code) {
+            var out = hljs.highlightAuto(code).value;
+            if(shouldWrap) {
+              out = wrapLines(out);
+            }
+            return out;
+          };
+        } else if (options.markdownOptions.highlight === 'manual') {
+          options.markdownOptions.highlight = function(code, lang) {
+            var out = code;
+            try {
+              out = hljs.highlight(lang, code).value;
+            } catch(e) {
+              out = hljs.highlightAuto(code).value;
+            }
+            if(shouldWrap) {
+              out = wrapLines(out);
+            }
+            return out;
+          };
+        }
 
+      }
     }
 
     markdown.setOptions(options.markdownOptions);

@@ -45,7 +45,11 @@ exports['markdown'] = {
     options = {
       preCompile: noop,
       postCompile: noop,
-      templateContext: {}
+      templateContext: {},
+        markdownOptions: {
+            gfm: true,
+            highlight: 'manual'
+        }
     };
     template = defaultTemplate;
     file = defaultFile;
