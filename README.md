@@ -119,7 +119,7 @@ This can also be a function which is expected to return a context object.
 
 ### markdownOptions
 
-Most markdown options are passed as-is to the [marked](https://github.com/chjj/marked) markdown parser. The only option that is processed prior to compiling the markdown is the `highlight` option. If you specify 'auto' or 'manual' the task will handle highlighting code blocks for you use highlight.js. If you pass a custom function as the highlight option it will be used to highlight the code.
+Most markdown options are passed as-is to the [marked](https://github.com/chjj/marked) markdown parser. The only option that is processed prior to compiling the markdown is the `highlight` option. If you specify 'auto' or 'manual' the task will handle highlighting code blocks for you using highlight.js. If you pass a custom function as the highlight option it will be used to highlight the code.
 
 * `auto`: Will try to detect the language
 * `manual`: will pass the language name from markdown to the highlight function
