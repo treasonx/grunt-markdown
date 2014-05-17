@@ -1,3 +1,11 @@
+/*
+ * grunt-markdown
+ * https://github.com/treasonx/grunt-markdown
+ *
+ * Copyright (c) 2012 James Morrin
+ * Licensed under the MIT license.
+ */
+
 module.exports = function(grunt) {
 
   // Project configuration.
