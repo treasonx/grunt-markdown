@@ -42,7 +42,7 @@ module.exports = function(grunt) {
 
       grunt.file.write(dest, content);
       grunt.log.writeln('File "' + dest + '" created.');
-      next();
+      process.nextTick(next);
     }
   });
 
