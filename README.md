@@ -126,5 +126,5 @@ Most markdown options are passed as-is to the [marked](https://github.com/chjj/m
 * `codeLines`: specify text that should wrap code lines
 
 ## License
-Copyright (c) 2012 James Morrin
+Copyright (c) 2012-2013 James Morrin
 Licensed under the MIT license.

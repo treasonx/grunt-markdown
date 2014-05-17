@@ -1,7 +1,7 @@
 {
   "name": "grunt-markdown",
   "description": "Compile markdown to html. GFM and code highlighting support!",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "homepage": "https://github.com/treasonx/grunt-markdown",
   "author": {
     "name": "James Morrin",
@@ -35,15 +35,19 @@
     "node": "*"
   },
   "scripts": {
-    "test": "grunt nodeunit"
+    "test": "grunt test"
   },
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-contrib-jshint": "~0.3.0",
     "grunt-contrib-nodeunit": "~0.1.2",
     "grunt-contrib-watch": "~0.3.1",
-    "mocha": "~1.11.0",
-    "cheerio": "~0.12.0"
+    "mocha": "~1.18.2",
+    "cheerio": "~0.12.0",
+    "grunt-mocha-test": "~0.10.2",
+    "chai": "~1.9.1",
+    "grunt-mocha-istanbul": "~1.4.1",
+    "grunt-contrib-connect": "~0.7.1"
   },
   "keywords": [
     "gruntplugin"
