@@ -70,7 +70,7 @@ exports['markdown'] = {
     test.done();
 
   },
-  'hjs code hightlight': function(test) {
+  'hjs code highlight': function(test) {
     getjQuery();
     test.ok($result.find('body').length === 1, 'should have body');
     test.done();
