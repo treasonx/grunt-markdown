@@ -10,9 +10,6 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    nodeunit: {
-      all: ['test/**/*.js']
-    },
     mochaTest: {
       dev: {
         options: {
@@ -22,32 +19,32 @@ module.exports = function(grunt) {
         src: ['test/*Spec.js']
       }
     },
-		mocha_istanbul: {
-			ci: {
-				src: 'test',
-				options: {
-					mask: '*Spec.js',
-					check: {
-						lines: 95,
-						branches: 82,
-						functions: 100,
-						statements: 95
-					}
-				}
-			},
-			coverage: {
-				src: 'test',
-				options: {
-					mask: '*Spec.js',
-					check: {
-						lines: 95,
-						branches: 82,
-						functions: 100,
-						statements: 95
-					}
-				}
-			}
-		},
+    mocha_istanbul: {
+      ci: {
+        src: 'test',
+        options: {
+          mask: '*Spec.js',
+          check: {
+            lines: 95,
+            branches: 82,
+            functions: 100,
+            statements: 95
+          }
+        }
+      },
+      coverage: {
+        src: 'test',
+        options: {
+          mask: '*Spec.js',
+          check: {
+            lines: 95,
+            branches: 82,
+            functions: 100,
+            statements: 95
+          }
+        }
+      }
+    },
     watch: {
       files: ['<%= jshint.files %>', 'test/*.js'],
       tasks: ['mocha_istanbul:coverage']
@@ -119,9 +116,9 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-mocha-test');
-	grunt.loadNpmTasks('grunt-mocha-istanbul');
-	grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-mocha-istanbul');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'mochaTest:dev']);
