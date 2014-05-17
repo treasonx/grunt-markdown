@@ -5,9 +5,44 @@ module.exports = function(grunt) {
     nodeunit: {
       all: ['test/**/*.js']
     },
+    mochaTest: {
+      dev: {
+        options: {
+          reporter: 'min',
+          ui: 'bdd'
+        },
+        src: ['test/*Spec.js']
+      }
+    },
+		mocha_istanbul: {
+			ci: {
+				src: 'test',
+				options: {
+					mask: '*Spec.js',
+					check: {
+						lines: 95,
+						branches: 82,
+						functions: 100,
+						statements: 95
+					}
+				}
+			},
+			coverage: {
+				src: 'test',
+				options: {
+					mask: '*Spec.js',
+					check: {
+						lines: 95,
+						branches: 82,
+						functions: 100,
+						statements: 95
+					}
+				}
+			}
+		},
     watch: {
-      files: ['<%= jshint.files %>', 'test/**/*.js'],
-      tasks: 'default'
+      files: ['<%= jshint.files %>', 'test/*.js'],
+      tasks: ['mocha_istanbul:coverage']
     },
     markdown: {
       all: {
@@ -42,10 +77,18 @@ module.exports = function(grunt) {
           }
         ]
       }
-
     },
+		connect: {
+			coverage: {
+				options: {
+					port: 9001,
+					livereload: true,
+					base: 'coverage/lcov-report/'
+				}
+			}
+		},
     jshint: {
-      files: ['Gruntfile.js', 'tasks/**/*.js', 'test/**/*.js'],
+      files: ['Gruntfile.js', 'tasks/**/*.js'],
       options: {
         curly: true,
         eqeqeq: true,
@@ -67,11 +110,14 @@ module.exports = function(grunt) {
   // Load local tasks.
   grunt.loadTasks('tasks');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-mocha-test');
+	grunt.loadNpmTasks('grunt-mocha-istanbul');
+	grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'nodeunit']);
-  grunt.registerTask('dev', ['watch', 'jshint', 'nodeunit']);
+  grunt.registerTask('default', ['jshint', 'mochaTest:dev']);
+  grunt.registerTask('test', ['jshint', 'mocha_istanbul:ci']);
+  grunt.registerTask('coverage', ['connect:coverage', 'watch', 'jshint']);
 
 };
