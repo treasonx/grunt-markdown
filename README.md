@@ -57,6 +57,10 @@ grunt.initConfig({
         preCompile: function(src, context) {},
         postCompile: function(src, context) {},
         templateContext: {},
+        contextBinder: false,
+        contextBinderMark: '@@@',
+        autoTemplate: true,
+        autoTemplateFormat: 'jst',
         markdownOptions: {
           gfm: true,
           highlight: 'manual',
@@ -80,6 +84,10 @@ These are the properties that the `markdown` task accepts:
     * `preCompile`: is run before the markdown is compiled
     * `postCompile`: is run after the markdown has been compiled
     * `templateContext`: the default context for template expansion
+    * `contextBinder`: this option is useful when we want to bind some parameters directly from markdown files. All data is stored in `templateContext` object.
+    * `contextBinderMark`: with this option we can pass any marker between which we can grab your special parameters from markdown templates.
+    * `autoTemplate`: if this option is set to true, script will search for template automatically. Template must be placed in this same catalog where markdown files are.
+    * `autoTemplateFormat`: the template format when `autoTemplate` is `true`.
 
 ### modifying content with preCompile and postCompile
 
@@ -124,6 +132,49 @@ Most markdown options are passed as-is to the [marked](https://github.com/chjj/m
 * `auto`: Will try to detect the language
 * `manual`: will pass the language name from markdown to the highlight function
 * `codeLines`: specify text that should wrap code lines
+
+### contextBinder
+
+Below you can see example how to use this option.
+
+```javascript
+  markdown: {
+    all: {
+      files: [
+        {
+          expand: true,
+          src: 'docs/src/*.md',
+          dest: 'docs/html/',
+          ext: '.html'
+        }
+      ],
+      options: {
+        template: 'myTemplate.jst',
+        preCompile: function(src, context) {},
+        postCompile: function(src, context) {},
+        templateContext: {},
+        contextBinder: true,
+        contextBinderMark: '@@@',
+        markdownOptions: {
+          gfm: true,
+          highlight: 'manual',
+          codeLines: {
+            before: '<span>',
+            after: '</span>'
+          }
+        }
+      }
+    }
+  }
+```
+
+Then inside markdown file we have to put: `<!-- @@@key:value@@@ -->` and it will be equal to:
+
+```javascript
+templateContext: {
+  key: 'value'
+}
+```
 
 ## License
 Copyright (c) 2012-2013 James Morrin
