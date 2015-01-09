@@ -12,6 +12,8 @@ var markdown = require('../tasks/lib/markdown').init(grunt);
 
 
 var filepath = 'test/samples/javascript.md';
+var contextBinderFile = 'test/data/bindertest.md';
+var workingPath = 'test/data/';
 var file = null;
 var defaultFile =  grunt.file.read(filepath);
 var templatepath = 'tasks/template.html';
@@ -178,6 +180,75 @@ describe('grunt-markdown', function () {
       assert.ok($title.text() === 'The name is this', 'the title should be set from preCompile context');
       assert.ok($desc.attr('content') === 'Monkey', 'the description should be set from preCompile context');
     });
+
+  });
+
+  describe('searching for default template', function() {
+
+    it('should automatically find template for markdown files', function() {
+
+      var templateFile = grunt.file.expand({}, workingPath + '*.jst');
+      assert.ok(templateFile[0] === 'test/data/autotemplatetest.jst');
+    });
+
+    it('should automatically find template with good extension', function() {
+
+      options.autoTemplateFormat = 'jst'; // Set option
+
+      var templateFile = grunt.file.expand({}, workingPath + '*.' + options.autoTemplateFormat);
+      assert.ok(templateFile[0] === 'test/data/autotemplatetest.jst');
+    });
+
+    it('should be able to find a good working directory', function() {
+
+      var file = ["test/samples/javascript.md"];
+        completePath = JSON.stringify(file).slice(2,-2).split('/'),
+        lastPathElement = completePath.pop(),
+        fileDirectory = completePath.splice(lastPathElement).join('/');
+
+        assert.ok(fileDirectory === 'test/samples');
+    });
+  });
+
+  describe('binding own parameters functionality', function() {
+
+    newTemplateContext = {};
+    it('should take good part of declared value', function() {
+      
+      options.contextBinderMark = '@@@'; // set option
+      expectedContext = {
+        key: 'value' 
+      } // expected format
+
+      var sourceFile = grunt.file.read(contextBinderFile),
+        pattern = new RegExp('(' + options.contextBinderMark + ')(.*?)(' + options.contextBinderMark + ')', 'g'),
+        contextArray;
+
+      sourceFile.match(pattern).forEach(function(item) {
+        var cleanString = item.slice(options.contextBinderMark.length, -options.contextBinderMark.length),
+          separatedPairs = cleanString.split(':');
+
+        newTemplateContext[separatedPairs[0]] = separatedPairs[1];
+      });
+      
+      assert.ok(JSON.stringify(newTemplateContext) === JSON.stringify(expectedContext));
+    });
+
+    it('should be able to check if value was defined in markdown file', function() {
+
+      options.contextBinderMark = '@@@';
+
+      var file = grunt.file.read(contextBinderFile),
+        testFile = new RegExp('(' + options.contextBinderMark + ')(.*?)(' + options.contextBinderMark + ')', 'g').test(file);
+        assert.ok(testFile === true);
+    });
+
+    it('should append the found values to `templateContext` object', function() {
+
+      options.templateContext = newTemplateContext;
+      assert.ok(JSON.stringify(options.templateContext) === JSON.stringify(newTemplateContext));
+    });
+
 
   });
 
