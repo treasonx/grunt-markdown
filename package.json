@@ -55,6 +55,6 @@
   "dependencies": {
     "highlight.js": "~8.4.0",
     "marked": "~0.3.2",
-    "lodash": "~2.4.1"
+    "lodash": "~4.17.19"
   }
 }
